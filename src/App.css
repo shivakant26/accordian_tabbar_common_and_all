@@ -146,6 +146,9 @@
 .table_container{
   margin-top: 40px;
 }
+.edual_width{
+  table-layout: fixed;
+}
 table{
   width: 100%;
   border-collapse: collapse;
@@ -157,11 +160,11 @@ table td,th{
 }
 input[type="text"],select{
   padding: 8px 20px;
-  /* appearance:none; */
 }
 select{
   color:#3F0071 !important;
   font-weight: 500;
+  width: 100%;
 }
 .add_btn,.rmv_btn{
   background: purple;
