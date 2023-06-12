@@ -17,13 +17,13 @@ class Test extends React.Component{
         return(
             <>
             <h4>Test Application</h4>
-            {
+            {/* {
                 this.state.data?.map((item,id)=>{
                     return(
                         <img src={item.thumbnailUrl} />
                     )
                 })
-            }
+            } */}
             </>
         )
     }

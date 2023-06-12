@@ -230,3 +230,15 @@ textarea:focus{
 .select_bg{
   background: #b6c0c8;
 }
+.edit_api_btn,.del_api_btn{
+  background: none;
+  border:none;
+  cursor: pointer;
+  font-size: 20px;
+}
+.del_api_btn{
+  margin-left: 8px;
+}
+.wish_form{
+  margin-bottom: 50px;
+}

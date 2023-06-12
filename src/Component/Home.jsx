@@ -1,22 +1,26 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addData, getEmployee } from "../redux/action/Action";
-import Listing from "./Listing";
+import { addData, getEmployee ,updateData,deleteData } from "../redux/action/Action";
+
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        id: 0,
+      id: null,
       title: "",
-      description: "",
-      isLoading:true,
+      description: ""
     };
   }
 
   submit(e) {
     e.preventDefault();
-    this.props.addData(this.state);
+    if(this.state.id !== null){
+      this.props.updateData(this.state)
+      this.setState({id:null})
+    }else{
+      this.props.addData(this.state);
+    }
     this.setState({
       title: "",
       description: "",
@@ -25,21 +29,27 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.props.getEmployee();
-    setTimeout(()=>{
-      this.setState({isLoading:false})
-    },2000)
+  }
+
+  editOp(id){
+    let data = this.props.employees;
+    let object = data[id];
+    this.setState({
+      id:id,
+      title:object.title,
+      description:object.description
+    })
+  }
+
+  deleOp(id){
+    this.props.deleteData(id)
   }
 
   render() {
     console.log("props",this.props.employees)
+    console.log("id",this.state.id)
     return (
       <>
-      {
-        this.state.isLoading ? (<>
-        <div className="loading">
-        <p>Loading....</p>
-        </div>
-        </>) : (<>
           <h2>Fill Information</h2>
         <form>
           <div className="form-field">
@@ -64,17 +74,38 @@ class Home extends React.Component {
                 this.submit(e);
               }}
             >
-              Submit
-            </button>
+             {this.state.id !== null ? "Update" : "Submit"}
+             </button>
+            
           </div>
         </form>
-        <Listing />
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this?.props?.employees?.map((item, index) => {
+              return (
+                <tr key={index}>
+                    <td>{index}</td>
+                  <td>{item.title}</td>
+                  <td>{item.description}</td>
+                  <td>
+                    <button onClick={()=>{this.editOp(index)}}>Edit</button>
+                    <button onClick={()=>{this.deleOp(index)}}>delete</button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
         </>)
       }
-        
-      </>
-    );
-  }
 }
 const mapStateToProps = (state) => {
     return state.myReducer
@@ -83,6 +114,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   addData,
   getEmployee,
+  updateData,
+  deleteData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
